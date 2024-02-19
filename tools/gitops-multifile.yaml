@@ -1,0 +1,20 @@
+ apiVersion: argoproj.io/v1alpha1
+ kind: Application
+ metadata:
+   name: gitops-multifile
+   namespace: openshift-gitops
+ spec:
+   destination:
+     namespace: argocd-test
+     server: https://kubernetes.default.svc
+   project: default
+   source:
+     path: gitops-multifile
+     repoURL: https://github.com/saulocg/turbonomic-gitops-demo
+     targetRevision: HEAD
+   syncPolicy:
+     syncOptions:
+     - PruneLast=true
+     - RespectIgnoreDifferences=true
+     - CreateNamespace=true
+     - ApplyOutOfSyncOnly=true

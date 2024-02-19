@@ -1,0 +1,42 @@
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   annotations: null
+   labels:
+     app: bee
+   name: beekman-one-more
+ spec:
+   replicas: 1
+   selector:
+     matchLabels:
+       app: bee
+   template:
+     metadata:
+       labels:
+         app: bee
+     spec:
+       containers:
+       - env:
+         - name: RUN_TYPE
+           value: cpu
+         - name: CPU_PERCENT
+           value: "95"
+         image: quay.io/ecotz/sampleapp:latest
+         imagePullPolicy: Always
+         name: beekman-1
+         resources:
+           limits:
+             cpu: 11m
+             memory: 28Mi
+           requests:
+             cpu: 10m
+             memory: 10Mi
+         terminationMessagePath: /dev/termination-log
+         terminationMessagePolicy: File
+       dnsPolicy: ClusterFirst
+       imagePullSecrets:
+       - name: docker-credentials
+       restartPolicy: Always
+       schedulerName: default-scheduler
+       securityContext: {}
+       terminationGracePeriodSeconds: 30
